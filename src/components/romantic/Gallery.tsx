@@ -1,14 +1,14 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { Camera, Heart, X } from "lucide-react";
+import { Camera, Heart, Pencil, Trash2, X } from "lucide-react";
 import { useRef, useState } from "react";
 import { EditableText, usePersonalize } from "@/lib/personalize";
 import { site } from "@/content/site";
 
 type Item = { src: string | null; caption: string };
 
-/** Our Memories Gallery — polaroid wall with a lightbox. */
+/** Our Memories Gallery: polaroid wall with a lightbox. */
 export function Gallery() {
-  const { edit, galleryPhotos, setGalleryPhotos } = usePersonalize();
+  const { edit, setEdit, galleryPhotos, setGalleryPhotos } = usePersonalize();
   const [lightbox, setLightbox] = useState<Item | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -53,11 +53,19 @@ export function Gallery() {
           <h2 className="mt-4 font-serif text-4xl font-semibold text-burgundy sm:text-5xl">
             <EditableText id="gallery-heading" fallback={site.gallery.heading} />
           </h2>
+          <button
+            type="button"
+            onClick={() => setEdit(true)}
+            className="mt-6 inline-flex items-center gap-2 rounded-full border border-dusty/50 bg-card/70 px-5 py-2.5 text-xs font-medium tracking-wide text-burgundy shadow-soft transition-all hover:-translate-y-0.5 hover:border-rosedeep hover:text-rosedeep"
+          >
+            <Pencil className="h-3.5 w-3.5" />
+            {edit ? "Gallery personalization is on" : "Personalize this gallery"}
+          </button>
         </motion.div>
 
         {edit && (
           <div className="mx-auto mt-8 flex max-w-md flex-col items-center gap-3 rounded-2xl glass p-5 text-center">
-            <p className="text-sm font-light text-burgundy">Add your real photographs — they appear as polaroids here.</p>
+            <p className="text-sm font-light text-burgundy">Add your real photographs. They appear as polaroids here.</p>
             <input
               ref={inputRef}
               type="file"
@@ -126,9 +134,10 @@ export function Gallery() {
                   type="button"
                   onClick={() => removePhoto(i)}
                   aria-label="Remove this photo"
-                  className="absolute right-1.5 top-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-burgundy/70 text-cream opacity-0 transition-opacity group-hover:opacity-100"
+                  className="absolute right-2 top-2 inline-flex items-center gap-1.5 rounded-full bg-burgundy/85 px-2.5 py-1.5 text-[10px] font-medium tracking-wide text-cream shadow-soft transition-colors hover:bg-rosedeep"
                 >
-                  <X className="h-3.5 w-3.5" />
+                  <Trash2 className="h-3 w-3" />
+                  Remove
                 </button>
               )}
             </motion.div>

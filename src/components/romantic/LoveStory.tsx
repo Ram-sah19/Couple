@@ -3,7 +3,7 @@ import { Heart } from "lucide-react";
 import { EditableText, PhotoSlot } from "@/lib/personalize";
 import { site } from "@/content/site";
 
-/** Our Little Love Story — romantic scrapbook timeline. */
+/** Our Little Love Story: romantic scrapbook timeline. */
 export function LoveStory() {
   return (
     <section id="story" className="relative overflow-hidden px-6 py-28">

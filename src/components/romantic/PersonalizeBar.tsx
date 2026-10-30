@@ -2,7 +2,7 @@ import { Pencil, RotateCcw, X } from "lucide-react";
 import { motion } from "framer-motion";
 import { usePersonalize } from "@/lib/personalize";
 
-/** Floating personalise control — edit every text and photo on this device. */
+/** Floating personalise control for editing every text and photo on this device. */
 export function PersonalizeBar() {
   const { edit, setEdit, reset } = usePersonalize();
 
@@ -15,7 +15,7 @@ export function PersonalizeBar() {
           className="glass flex max-w-[calc(100vw-2.5rem)] items-center gap-3 rounded-full py-2 pl-4 pr-2"
         >
           <span className="text-xs font-light leading-tight text-burgundy sm:text-sm">
-            Personalising — tap any text or photo.
+            Personalising. Tap any text or photo.
             <span className="hidden sm:inline"> Changes save on this device.</span>
           </span>
           <button

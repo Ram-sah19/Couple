@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 type Trail = { id: number; x: number; y: number; size: number; tilt: number };
 
-/** A trail of tiny hearts that follows the cursor — desktop only. */
+/** A trail of tiny hearts that follows the cursor on desktop. */
 export function HeartCursor() {
   const [trail, setTrail] = useState<Trail[]>([]);
   const idRef = useRef(0);

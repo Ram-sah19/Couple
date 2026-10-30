@@ -6,7 +6,7 @@ import heroFloral from "@/assets/hero-floral.jpg";
 
 export const ENTER_EVENT = "puja:enter";
 
-/** Full-screen cinematic opening — the surprise gate. */
+/** Full screen cinematic opening: the surprise gate. */
 export function OpeningScreen({ onEnter }: { onEnter: () => void }) {
   const handleEnter = () => {
     window.dispatchEvent(new Event(ENTER_EVENT));

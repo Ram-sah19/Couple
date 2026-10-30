@@ -15,6 +15,7 @@ import { Camera } from "lucide-react";
  * Personalise mode: lets the couple edit every text and upload their own
  * photos directly on the site. Everything is saved to this device's
  * localStorage, so it never overrides the published defaults for her.
+ * Gallery photos use IndexedDB because image data is too large for localStorage.
  */
 
 type Store = {
@@ -25,6 +26,8 @@ type Store = {
 
 const EMPTY: Store = { texts: {}, photos: {}, gallery: [] };
 const KEY = "puja-birthday-v1";
+const GALLERY_DB = "puja-birthday-gallery";
+const GALLERY_STORE = "photos";
 
 type Ctx = {
   edit: boolean;
@@ -44,10 +47,64 @@ function readStore(): Store {
   try {
     const raw = localStorage.getItem(KEY);
     if (!raw) return EMPTY;
-    return { ...EMPTY, ...(JSON.parse(raw) as Partial<Store>) };
+    const saved = { ...EMPTY, ...(JSON.parse(raw) as Partial<Store>) };
+    const updatedTexts = Object.fromEntries(
+      Object.entries(saved.texts).map(([id, value]) => [
+        id,
+        value.includes("The way you dance when your song plays.")
+          ? "The way you call me Buna, hayeee."
+          : value,
+      ])
+    );
+    if (updatedTexts["reason-9"] !== saved.texts["reason-9"]) {
+      saved.texts = updatedTexts;
+      localStorage.setItem(KEY, JSON.stringify({ ...saved, gallery: [] }));
+    }
+    return saved;
   } catch {
     return EMPTY;
   }
+}
+
+function openGalleryDb(): Promise<IDBDatabase> {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open(GALLERY_DB, 1);
+    request.onupgradeneeded = () => {
+      request.result.createObjectStore(GALLERY_STORE);
+    };
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+}
+
+async function readGallery(): Promise<{ src: string; caption: string }[] | null> {
+  const db = await openGalleryDb();
+  return new Promise((resolve, reject) => {
+    const request = db.transaction(GALLERY_STORE, "readonly").objectStore(GALLERY_STORE).get("items");
+    request.onsuccess = () => resolve((request.result as { src: string; caption: string }[] | undefined) ?? null);
+    request.onerror = () => reject(request.error);
+  });
+}
+
+async function writeGallery(items: { src: string; caption: string }[]) {
+  const db = await openGalleryDb();
+  await new Promise<void>((resolve, reject) => {
+    const request = db
+      .transaction(GALLERY_STORE, "readwrite")
+      .objectStore(GALLERY_STORE)
+      .put(items, "items");
+    request.onsuccess = () => resolve();
+    request.onerror = () => reject(request.error);
+  });
+}
+
+async function clearGallery() {
+  const db = await openGalleryDb();
+  await new Promise<void>((resolve, reject) => {
+    const request = db.transaction(GALLERY_STORE, "readwrite").objectStore(GALLERY_STORE).delete("items");
+    request.onsuccess = () => resolve();
+    request.onerror = () => reject(request.error);
+  });
 }
 
 export function PersonalizeProvider({ children }: { children: ReactNode }) {
@@ -55,15 +112,26 @@ export function PersonalizeProvider({ children }: { children: ReactNode }) {
   const [store, setStore] = useState<Store>(EMPTY);
 
   useEffect(() => {
-    setStore(readStore());
+    const legacy = readStore();
+    setStore(legacy);
+    readGallery()
+      .then((gallery) => {
+        if (gallery?.length) {
+          setStore((current) => ({ ...current, gallery }));
+        } else if (legacy.gallery.length) {
+          return writeGallery(legacy.gallery);
+        }
+        return undefined;
+      })
+      .catch(() => undefined);
   }, []);
 
   const update = useCallback((next: Store) => {
     setStore(next);
     try {
-      localStorage.setItem(KEY, JSON.stringify(next));
+      localStorage.setItem(KEY, JSON.stringify({ ...next, gallery: [] }));
     } catch {
-      // storage full — photos too large; keep in memory for this visit
+      // Text personalization still works in memory when browser storage is full.
     }
   }, []);
 
@@ -79,10 +147,14 @@ export function PersonalizeProvider({ children }: { children: ReactNode }) {
         photos: { ...store.photos, [id]: dataUrl ?? "" },
       }),
     galleryPhotos: store.gallery.length ? store.gallery : null,
-    setGalleryPhotos: (items) => update({ ...store, gallery: items }),
+    setGalleryPhotos: (items) => {
+      setStore((current) => ({ ...current, gallery: items }));
+      writeGallery(items).catch(() => undefined);
+    },
     reset: () => {
       update(EMPTY);
       setStore(EMPTY);
+      clearGallery().catch(() => undefined);
     },
   };
 

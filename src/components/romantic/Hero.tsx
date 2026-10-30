@@ -6,7 +6,7 @@ import { site } from "@/content/site";
 import heroFloral from "@/assets/hero-floral.jpg";
 import floralCorner from "@/assets/floral-corner.png";
 
-/** Hero — the birthday girl's moment. */
+/** Hero: the birthday girl's moment. */
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });

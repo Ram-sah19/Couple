@@ -22,7 +22,7 @@ export function MusicControl() {
         .play()
         .then(() => setPlaying(true))
         .catch(() => {
-          // browser wants an explicit tap — the button is right there
+          // browser wants an explicit tap, and the button is right there
         });
     };
 

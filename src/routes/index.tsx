@@ -1,24 +1,51 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { AnimatePresence } from "framer-motion";
+import { useState } from "react";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+import { CakeSection } from "@/components/romantic/CakeSection";
+import { Finale } from "@/components/romantic/Finale";
+import { FloatingPetals } from "@/components/romantic/FloatingPetals";
+import { Gallery } from "@/components/romantic/Gallery";
+import { HeartfeltExtras } from "@/components/romantic/HeartfeltExtras";
+import { HeartCursor } from "@/components/romantic/HeartCursor";
+import { Hero } from "@/components/romantic/Hero";
+import { Letter } from "@/components/romantic/Letter";
+import { LoveStory } from "@/components/romantic/LoveStory";
+import { MusicControl } from "@/components/romantic/MusicControl";
+import { OpeningScreen } from "@/components/romantic/OpeningScreen";
+import { PersonalizeBar } from "@/components/romantic/PersonalizeBar";
+import { Preloader } from "@/components/romantic/Preloader";
+import { Reasons } from "@/components/romantic/Reasons";
+import { PersonalizeProvider } from "@/lib/personalize";
+
 export const Route = createFileRoute("/")({
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
+  const [entered, setEntered] = useState(false);
+
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <PersonalizeProvider>
+      <Preloader />
+      <AnimatePresence mode="wait">
+        {!entered && <OpeningScreen onEnter={() => setEntered(true)} />}
+      </AnimatePresence>
+
+      <main>
+        <FloatingPetals />
+        <HeartCursor />
+        <MusicControl />
+        <PersonalizeBar />
+        <Hero />
+        <LoveStory />
+        <Letter />
+        <HeartfeltExtras />
+        <Reasons />
+        <Gallery />
+        <CakeSection />
+        <Finale />
+      </main>
+    </PersonalizeProvider>
   );
 }

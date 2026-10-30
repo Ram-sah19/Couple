@@ -6,7 +6,7 @@ import { site } from "@/content/site";
 import letterPaper from "@/assets/letter-paper.jpg";
 import floralCorner from "@/assets/floral-corner.png";
 
-/** A Letter From My Heart — interactive envelope. */
+/** A Letter From My Heart: interactive envelope. */
 export function Letter() {
   const [open, setOpen] = useState(false);
 

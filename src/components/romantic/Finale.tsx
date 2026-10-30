@@ -5,7 +5,7 @@ import { EditableText } from "@/lib/personalize";
 import { site } from "@/content/site";
 import finaleSunset from "@/assets/finale-sunset.jpg";
 
-/** Forever Yours — the dreamy pink-sunset closing. */
+/** Forever Yours: the dreamy pink sunset closing. */
 export function Finale() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end end"] });

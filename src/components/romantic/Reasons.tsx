@@ -7,6 +7,8 @@ import { site } from "@/content/site";
 function ReasonCard({ index }: { index: number }) {
   const [flipped, setFlipped] = useState(false);
   const reason = site.reasons.items[index];
+  const displayReason =
+    index === 9 ? "The way you call me Buna, hayeee." : reason;
 
   return (
     <motion.button
@@ -36,7 +38,7 @@ function ReasonCard({ index }: { index: number }) {
         {/* back */}
         <div className="absolute inset-0 flex items-center justify-center rounded-2xl bg-card p-4 shadow-soft [backface-visibility:hidden] [transform:rotateY(180deg)]">
           <p className="text-center font-serif text-[15px] italic leading-snug text-burgundy">
-            <EditableText id={`reason-${index}`} fallback={reason} multiline />
+            <EditableText id={`reason-${index}`} fallback={displayReason} multiline />
           </p>
         </div>
       </motion.div>
@@ -44,7 +46,7 @@ function ReasonCard({ index }: { index: number }) {
   );
 }
 
-/** 22 Reasons Why I Love You — flip cards. */
+/** 22 Reasons Why I Love You: flip cards. */
 export function Reasons() {
   return (
     <section id="reasons" className="relative overflow-hidden px-6 py-28">
