@@ -112,18 +112,7 @@ export function PersonalizeProvider({ children }: { children: ReactNode }) {
   const [store, setStore] = useState<Store>(EMPTY);
 
   useEffect(() => {
-    const legacy = readStore();
-    setStore(legacy);
-    readGallery()
-      .then((gallery) => {
-        if (gallery?.length) {
-          setStore((current) => ({ ...current, gallery }));
-        } else if (legacy.gallery.length) {
-          return writeGallery(legacy.gallery);
-        }
-        return undefined;
-      })
-      .catch(() => undefined);
+    setStore(EMPTY);
   }, []);
 
   const update = useCallback((next: Store) => {

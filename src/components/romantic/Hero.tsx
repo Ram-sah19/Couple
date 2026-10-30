@@ -98,7 +98,7 @@ export function Hero() {
                 }
               />
               <p className="absolute bottom-4 left-0 right-0 font-script text-2xl text-burgundy/80">
-                <EditableText id="hero-frame-label" fallback="my puja" />
+                <EditableText id="hero-frame-label" fallback="My Queen Puja Rouniyar" />
               </p>
             </div>
             <img

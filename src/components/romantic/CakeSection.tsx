@@ -113,7 +113,7 @@ export function CakeSection() {
                 style={{ background: "radial-gradient(circle 10px at 10px 0, oklch(0.879 0.057 350) 96%, transparent 100%)", backgroundSize: "20px 20px", backgroundRepeat: "repeat-x" }}
               />
               <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-script text-3xl text-cream drop-shadow-sm">
-                <EditableText id="cake-label" fallback="Happy 22nd" />
+                <EditableText id="cake-label" fallback="Happy 22nd, My Sweetheart" />
               </div>
             </div>
             <div className="relative mx-auto -mt-1 h-24 w-[22rem] max-w-full rounded-t-xl rounded-b-lg bg-gradient-to-b from-dusty to-rosedeep shadow-petal">
@@ -123,7 +123,7 @@ export function CakeSection() {
               />
               <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 text-cream">
                 <Flame className="h-4 w-4" />
-                <span className="font-serif text-lg italic">for Puja</span>
+                <span className="font-serif text-lg italic">for My Sweetheart</span>
               </div>
             </div>
             {/* plate */}

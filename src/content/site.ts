@@ -11,13 +11,13 @@ export const site = {
 
   opening: {
     line1: "Someone very special was born today...",
-    line2: "Happy 22nd Birthday, Puja",
+    line2: "Happy 22nd Birthday, My Love",
     button: "Open Your Surprise",
   },
 
   hero: {
     eyebrow: "October 31 · 8 Years of Us",
-    heading: "Puja",
+    heading: "Puja Rouniyar",
     sub: "Eight beautiful years of loving my queen, my princess, and my wifey. I am so lucky to be your Buna and your king.",
     photoHint: "Her beautiful photograph goes here",
   },
@@ -60,7 +60,7 @@ export const site = {
 
   letter: {
     heading: "A Letter From My Heart",
-    seal: "For Puja",
+    seal: "For My Only Love",
     body: `My Dearest Puja, my future wife,
 
 Happy 22nd Birthday, my love.
@@ -128,7 +128,7 @@ Happy Birthday, My Love.`,
   },
 
   cake: {
-    heading: "Make a Wish, Birthday Girl!",
+    heading: "Make a Wish, My Sweetheart!",
     button: "Blow Out The Candles",
     relight: "Light them again",
     message: "May all your wishes come true, My QUEEN. You deserve every beautiful thing this world has to offer.",
