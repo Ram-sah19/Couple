@@ -226,6 +226,7 @@ export function EditableText({ id, fallback, as = "span", className, multiline, 
 
 type PhotoSlotProps = {
   id: string;
+  defaultSrc?: string;
   /** shown when no photo is uploaded yet */
   fallback: ReactNode;
   className?: string;
@@ -234,9 +235,9 @@ type PhotoSlotProps = {
   eager?: boolean;
 };
 
-export function PhotoSlot({ id, fallback, className, imgClassName, alt = "Our photo", eager }: PhotoSlotProps) {
+export function PhotoSlot({ id, defaultSrc, fallback, className, imgClassName, alt = "Our photo", eager }: PhotoSlotProps) {
   const { edit, photo, setPhoto } = usePersonalize();
-  const src = photo(id);
+  const src = photo(id) ?? defaultSrc;
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleFile = (file?: File) => {

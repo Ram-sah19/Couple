@@ -62,6 +62,7 @@ export function LoveStory() {
                   >
                     <PhotoSlot
                       id={`story-${i}`}
+                      defaultSrc={entry.image}
                       className="aspect-[4/3] w-full rounded-[2px]"
                       alt={entry.title}
                       fallback={

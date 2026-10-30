@@ -13,7 +13,6 @@ import { Letter } from "@/components/romantic/Letter";
 import { LoveStory } from "@/components/romantic/LoveStory";
 import { MusicControl } from "@/components/romantic/MusicControl";
 import { OpeningScreen } from "@/components/romantic/OpeningScreen";
-import { PersonalizeBar } from "@/components/romantic/PersonalizeBar";
 import { Preloader } from "@/components/romantic/Preloader";
 import { Reasons } from "@/components/romantic/Reasons";
 import { PersonalizeProvider } from "@/lib/personalize";
@@ -36,7 +35,6 @@ function Index() {
         <FloatingPetals />
         <HeartCursor />
         <MusicControl />
-        <PersonalizeBar />
         <Hero />
         <LoveStory />
         <Letter />

@@ -1,43 +1,16 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { Camera, Heart, Pencil, Trash2, X } from "lucide-react";
-import { useRef, useState } from "react";
-import { EditableText, usePersonalize } from "@/lib/personalize";
+import { Heart, X } from "lucide-react";
+import { useState } from "react";
+import { EditableText } from "@/lib/personalize";
 import { site } from "@/content/site";
 
 type Item = { src: string | null; caption: string };
 
 /** Our Memories Gallery: polaroid wall with a lightbox. */
 export function Gallery() {
-  const { edit, setEdit, galleryPhotos, setGalleryPhotos } = usePersonalize();
   const [lightbox, setLightbox] = useState<Item | null>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
 
-  const stored = galleryPhotos;
-  const items: Item[] = stored
-    ? stored.map((p) => ({ src: p.src, caption: p.caption }))
-    : site.gallery.captions.map((c) => ({ src: null, caption: c }));
-
-  const addPhotos = (files: FileList | null) => {
-    if (!files || !files.length) return;
-    const readers = Array.from(files).map(
-      (file) =>
-        new Promise<string>((resolve) => {
-          const r = new FileReader();
-          r.onload = () => resolve(String(r.result));
-          r.readAsDataURL(file);
-        })
-    );
-    Promise.all(readers).then((srcs) => {
-      const existing = stored ?? [];
-      const next = [...existing, ...srcs.map((src) => ({ src, caption: "" }))];
-      setGalleryPhotos(next);
-    });
-  };
-
-  const removePhoto = (idx: number) => {
-    if (!stored) return;
-    setGalleryPhotos(stored.filter((_, i) => i !== idx));
-  };
+  const items: Item[] = site.gallery.photos;
 
   return (
     <section id="gallery" className="relative overflow-hidden bg-gradient-to-b from-cream via-blush/40 to-cream px-6 py-28">
@@ -53,40 +26,7 @@ export function Gallery() {
           <h2 className="mt-4 font-serif text-4xl font-semibold text-burgundy sm:text-5xl">
             <EditableText id="gallery-heading" fallback={site.gallery.heading} />
           </h2>
-          <button
-            type="button"
-            onClick={() => setEdit(true)}
-            className="mt-6 inline-flex items-center gap-2 rounded-full border border-dusty/50 bg-card/70 px-5 py-2.5 text-xs font-medium tracking-wide text-burgundy shadow-soft transition-all hover:-translate-y-0.5 hover:border-rosedeep hover:text-rosedeep"
-          >
-            <Pencil className="h-3.5 w-3.5" />
-            {edit ? "Gallery personalization is on" : "Personalize this gallery"}
-          </button>
         </motion.div>
-
-        {edit && (
-          <div className="mx-auto mt-8 flex max-w-md flex-col items-center gap-3 rounded-2xl glass p-5 text-center">
-            <p className="text-sm font-light text-burgundy">Add your real photographs. They appear as polaroids here.</p>
-            <input
-              ref={inputRef}
-              type="file"
-              accept="image/*"
-              multiple
-              className="hidden"
-              onChange={(e) => {
-                addPhotos(e.target.files);
-                e.target.value = "";
-              }}
-            />
-            <button
-              type="button"
-              onClick={() => inputRef.current?.click()}
-              className="inline-flex items-center gap-2 rounded-full bg-rosedeep px-5 py-2.5 text-sm font-medium text-cream transition-transform hover:scale-105"
-            >
-              <Camera className="h-4 w-4" /> Choose photos
-            </button>
-            {stored && <p className="text-xs font-light text-muted-foreground">{stored.length} photo(s) on this device</p>}
-          </div>
-        )}
 
         <div className="mt-16 columns-2 gap-6 sm:columns-3 [column-fill:_balance]">
           {items.map((item, i) => (
@@ -115,31 +55,8 @@ export function Gallery() {
                 )}
               </button>
               <p className="mt-3 text-center font-serif text-sm italic leading-snug text-burgundy/85">
-                {edit && stored ? (
-                  <input
-                    value={item.caption}
-                    placeholder="Add a caption…"
-                    onChange={(e) => {
-                      const next = stored.map((p, j) => (j === i ? { ...p, caption: e.target.value } : p));
-                      setGalleryPhotos(next);
-                    }}
-                    className="w-full rounded border border-dashed border-dusty/60 bg-transparent px-1 py-0.5 text-center text-sm focus:outline-none"
-                  />
-                ) : (
-                  item.caption || " "
-                )}
+                {item.caption || " "}
               </p>
-              {edit && stored && (
-                <button
-                  type="button"
-                  onClick={() => removePhoto(i)}
-                  aria-label="Remove this photo"
-                  className="absolute right-2 top-2 inline-flex items-center gap-1.5 rounded-full bg-burgundy/85 px-2.5 py-1.5 text-[10px] font-medium tracking-wide text-cream shadow-soft transition-colors hover:bg-rosedeep"
-                >
-                  <Trash2 className="h-3 w-3" />
-                  Remove
-                </button>
-              )}
             </motion.div>
           ))}
         </div>
