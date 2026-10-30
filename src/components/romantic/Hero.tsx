@@ -83,7 +83,7 @@ export function Hero() {
             <div className="rounded-t-[999px] rounded-b-3xl bg-card p-3 pb-14 shadow-petal">
               <PhotoSlot
                 id="hero-photo"
-                defaultSrc="/images/WhatsApp Image 2026-02-01 at 11.30.53 PM.jpeg"
+                defaultSrc="/images/WhatsApp Image 2026-02-01 at 11.31.23 PM.jpeg"
                 eager
                 className="h-[300px] w-[230px] rounded-t-[999px] rounded-b-2xl sm:h-[380px] sm:w-[290px]"
                 alt="Puja"

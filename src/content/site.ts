@@ -17,7 +17,7 @@ export const site = {
 
   hero: {
     eyebrow: "October 31 · 8 Years of Us",
-    heading: "To My Future Wife, Puja",
+    heading: "Puja",
     sub: "Eight beautiful years of loving my queen, my princess, and my wifey. I am so lucky to be your Buna and your king.",
     photoHint: "Her beautiful photograph goes here",
   },
