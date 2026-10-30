@@ -1,10 +1,15 @@
-# Pixel Perfect Replica
+# For My QUEEN
 
-Implement exactly the screenshot and nothing else
+A private birthday surprise made with love.
 
-## Development
+## Run locally
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+```sh
+npm install
+npm run dev
+```
+
+Open the local URL shown in the terminal.
 
 ```sh
 git clone <this-repository-url>
